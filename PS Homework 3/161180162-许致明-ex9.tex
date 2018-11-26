@@ -1,0 +1,42 @@
+\documentclass[twocolumn, 10.5pt]{article}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\usepackage{txfonts}
+\usepackage{fontspec}
+%\usepackage{ctex}
+\usepackage{float}
+\usepackage{enumerate}
+\setmainfont{Times New Roman}
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\setlength\parindent{0em}
+\begin{document}
+	\title{Problem Solving Homework (Week 8)}\author{161180162 Xu Zhiming}\maketitle
+	\section*{JH Chapter 4}
+	\subsection*{4.3.4.9}
+	\begin{proof}
+		Alike what is proved in Lemma 4.3.4.8
+		\[
+		\begin{aligned}
+			R(I,\epsilon)&\le 1+\frac{d(1+\delta)}{cost(T^*)}\\
+			&\le 1+\frac{\epsilon(1+\delta)\sum_{i\in T}w_i}{\sum_{i\in T^*}c_i}\\
+			&\le 1+\frac{\epsilon(1+\delta)\sum_{i\in T}w_i}{\sum_{i\in T^*}w_i}\\
+			&\le 1+\epsilon(1+\delta)^2
+		\end{aligned}
+		\]
+	\end{proof}
+	\subsection*{4.3.4.13}
+	\begin{codebox}
+		\li Given $\epsilon>0$, let $K=\frac{\epsilon W}{n}$\li \
+		For each object $i$, define $w'_i=\left\lfloor  \frac{w_i}{K}\right\rfloor$\li 
+		With $w'$ as profits, using the dynamic programming algorithm, \zi 
+		find the most profitable set, say $S'$\li 
+		Output $S'$
+	\end{codebox}
+\end{document}

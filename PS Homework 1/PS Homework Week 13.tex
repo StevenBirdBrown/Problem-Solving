@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{listings}
+\geometry{top=2.0cm,bottom=2.0cm,left=2.0cm,right=2.0cm}
+\begin{document}
+\title{Problem Solving Homework(Week 13)}\author{161180162 Xu Zhiming}\date{\today}\maketitle
+\setlength\parindent{0em}
+\large\textbf{TC}\\
+\textbf{16.1-2}
+In this algorithm, every step we make a choice and get a subproblem. So it's a greedy algorithm.
+Write the pseudocode of it.
+\begin{lstlisting}[language=C,numbers=left]
+GREEDY-ACTIVITY-SELECTIOR-REVISED(s,f)
+//Prelimenary: the activities are sorted using start time
+n=s.length
+k=n
+for i from n-1 down to 1
+	if f[i]<=f[k]
+		A.push(a[i])	
+		k=i
+return A
+\end{lstlisting}
+The proof of the correctness:
+\begin{proof}
+Consider any nonempty subproblem $S^k$, and let $a_m$ be an activity in $S_k$ with the last start time.
+Next I will prove that $a_m$ is included in some maximum-size of subset of mutually compatible activities
+of $S_k$. Let $A_k$ be a maximum-size subset of mutually compatible activities in $S_k$, and let $a_j$ be 
+the activity in $A_k$ with the last start time. If $a_i=a_j$, it's done. If $a_i\neq a_j$, let the set 
+$A_k^{'}=A_k-\{a_j\}\cup\{a_m\}$ be $A_k$ but substituting $a_m$ for $a_j$. The activities in $A^k_{'}$ are
+disjoint, which follows because the activities in $A-k$ are disjoint, $a_j$ is the last activity in $A_k$ to
+start and $s_m>=s_j$. Since $|A_k^{'}|=|A_k|$, we conclude that $A_k^{'}$ is a maximum=size subset of mutually
+compatible activities of $S_k$, and it includes $a_m$.
+\end{proof}
+\textbf{16.1-3}\\
+Example for case 1:\\
+s 1 4  7 11\\ 
+f 6 8 10 15\\
+The set S in textbook can be an example for case 2 and 3\\ 
+\textbf{16.2-1}\\
+We need to prove local greedy choices will eventually lead to a global optimal solution.
+\begin{proof}
+In this problem, since the material we take can be fractional. That's to say, we can take as much as we want, partial
+or whole. Then we can assign a unit price which is price divided by weight to it. It's obvious that we shall take the
+material of highest unit price as much as possible. If not, we choose another material of a lower unit price, for that
+weight it takes, it's not optimal(Since we could have obtained a larger total price). So the local optimal choice will
+lead to a global optimal choice, the greedy choice property holds.  
+\end{proof}
+\textbf{16.2-2}
+\begin{lstlisting}[language=C,numbers=left]
+KNAPSACK(w[1..n],v[1..n],limit)
+let DP[0..limit] be a new array
+for i from 0 to limit
+	DP[i]=0
+for i from 1 to i
+	for j from limit down to w[i]
+		DP[j]=max(DP[j],DP[j-w[i]]+v[j])
+return DP[limit]
+\end{lstlisting}
+\textbf{16.3-2}
+\begin{proof}
+Obviously, if a node has only one child, then it can't be a keyword but an ordinary node.
+Then we can delete it and move all its decedents up 1 level, shortening the code length of
+them by 1. Therefore, a tree that not full can't correspond to an optimal prefix tree.
+\end{proof}
+\textbf{16.3-5}
+\begin{proof}
+Assum we have k elements, their frequencies are $f_1\le f_2\le\dots\le f_k$, and one kind of optimal 
+prefix code makes them stay in depth $d_1,d_2,\dots,d_k$. Then we have $W(k)=\sum_{i=1}^{k}f_i\times d_i$
+is a minimum. Suppose the depths are monotonically increasing, $W^{'}(k)=\sum_{i=1}^{k}f_i\times d_i$, where
+$d_1\ge d_2\ge\dots\ge d_k$. According to sequence inequality, $W^{'}(k)\le W(k)$. Thus we are done with
+the proof.
+\end{proof}
+\textbf{16.3-8}
+\begin{proof}
+	Alike the proof of Lemma 16.2, 
+\begin{equation*}
+\begin{aligned}
+B(T)-B(T')&=\sum_{c\in C}c.freq\cdot d_T(c)-\sum_{c\in C}c.freq\cdot d_{T'}(c)\\
+&=(c.freq-c.freq)(d_T(c)-d_{T'}(c))\\
+&=0
+\end{aligned}
+\end{equation*}
+Therefore, Huffman code isn't more efficient than ordinary code.
+\end{proof}
+\textbf{16-1}\\
+\textbf{a.}
+\begin{lstlisting}[language=C,numbers=left]
+COIN-CHANGE(n)
+let q,d,n,p all be 0	//Initializing,numbers of every kind of coins
+remain=n
+while(remain>0)
+	if(remain>15)
+		q++
+		remain-=15
+	else if(remain>10)
+		d++
+		remain-=10
+	else if(remain>5)
+		n++
+		remain-=5
+	else
+		p+=remain
+		remain=0
+return q,d,n,p
+\end{lstlisting}
+\begin{proof}
+Optimal Substructure: In an optimal solution, for a certain amount of money, 
+suppose we need at least n coins. If there is another way to change the money and requires less coins, 
+then we can substitute this way for the former ways and yield a better solution, which contradicts 
+our assumption. Therefore, the optimal substructure is satisfied.\\
+Greedy Choice: If we keep choosing coins with the highest price since the remaining amount permits, 
+it's obvious that we can minimize the total number of coins used.
+\end{proof}
+\textbf{b.}
+\begin{proof}
+	We can view the available coin denominations $c^0,c^1,\dots,c^k$ as the radixes of c-radix numbers.  
+	It's trivial that any number can be denoted by the radix. So we can use these coins to change any amount
+	of money. Alike the proof in problem a, this problem also has the two properties. So it can be solved by
+	a greedy algorithm.
+\end{proof}
+\textbf{c.}\\
+1 cent, 8 cents and 10 cents. 17 cents' case.\\ 
+\textbf{d.}
+\begin{lstlisting}[language=C,numbers=left]
+COIN-CHANGE(d[1..k])	//d is the denominations of coins
+for(i = 1; i <= n; i++)
+	for(j = 0; d[j] <= i&&j< = k; j++)
+		if DP[i] == 0 or DP[i-d[j]]+1 < DP[i]
+			DP[i] = DP[i-d[j]]+1
+\end{lstlisting}
+\end{document}

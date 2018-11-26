@@ -1,0 +1,69 @@
+\documentclass[twocolumn]{article}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\usepackage{txfonts}
+\usepackage{fontspec}
+\usepackage{float}
+\usepackage{enumerate}
+\setmainfont{Times New Roman}
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\setlength\parindent{0em}
+\begin{document}
+	\title{Problem Solving Homework (Week 1)}\author{161180162 Xu Zhiming}\maketitle
+	\section*{JH Chapter 2}
+	\subsection*{Exercise 2.3.1.7}
+	Suppose that $M_G=[a_{ij}]_{i,j=1,2,\cdots,n}$ is the adjacent matrix of a graph $G$, then we can use word:
+	\[
+	a_{11}a_{12}\cdots a_{1n}a_{21}a_{22}\cdots a_{2n}\cdots a_{n1}a_{n2}\cdots a_{nn}
+	\]
+	over alphabet $\Sigma_{bool}=\left\{0,1\right\}$ to represent graphs.
+	\subsection*{Exercise 2.3.1.8}
+	Suppose that $M_G=[a_{ij}]_{i,j=1,2,\cdots,n},\ a_{ij}\in N$ is the adjacent of a weighted graph $G_w$, then we can use word:
+	\[
+	\begin{aligned}
+		\underbrace{11\cdots1}_{a_{11}\text{ times 1}}\text{\#}\underbrace{11\cdots1}_{a_{12}\text{ times 1}}\text{\#}\underbrace{11\cdots1}_{a_{nn}\text{ times 1}}
+	\end{aligned}
+	\]
+	(If $a_{ij}=0$, then string $11\cdots1$ is replaced with 0)
+	over alphabet $\Sigma=\left\{0,1,\text{\#}\right\}$.
+	\subsection*{Exercise 2.3.3.8}
+	\begin{enumerate}
+		\item Traverse the given path (a series of vertexes) yielding by some algorithm for HC. Once a vertex is visited, dye it black. In the end, if there is still some vertex(es) left, or any edge on the path is non-exist then yields false. If not, yields true. Since this verifier only traverse all the vertexes, its running time is polynomial.
+		\item Scan the graph's adjacent matrix, verify that, for the given vertex set $V'$, $M[i][j]\ne 0,i,j\in V'$ and $M[i][j]=0,i,j\notin V'$.
+		\item We can use Bron–Kerbosch algorithm to find the maximum clique in the given graph. If $k\ge x$, than the algorithm should yield "yes", otherwise, it should yield "no".
+	\end{enumerate}
+	\newpage
+	\subsection*{Exercise 2.3.3.8 (Revised)}
+	\begin{enumerate}[(i)]
+	\item A: Input: $(x,c)\in \left\{
+		0,1,\sharp\right\}^\star\times \Sigma^\star_{bool}$
+		\begin{enumerate}[(1)]
+			\item 
+			$x$ is a representation of a graph and we represent the set of vertices as $\left\{x_1,x_2,\dots,x_n\right\}$. $c$ codes a sequence of vertices: $I=\left\{x_{i1},x_{i2},\dots,x_{in},x_{i1}\right\}$.
+			\item  If each pair of adjacent vertices have an edge, then A accepts $(x,c)$ otherwise A rejects it. 
+		\end{enumerate}
+		\item 
+		A: Input: $(x,c)\in \{0,1,\sharp\}^+\times \Sigma_{bool}^{\star}$
+		\begin{enumerate}[(1)]
+			\item 
+			$x=u\sharp w\in\{0,1,\sharp\}^+$ where $u\in\{0,1\}^+$ and $w$ represents a graph with $n$ vertices. Let $k=Number(u)$. $c\in \Sigma_{bool}^n$ codes $k$ vertices using $k$ symbols of 1.
+			\item 
+			 If each edge of the graph is incident to at least one vertex in $c$, then A accepts $(x,c)$, otherwise, A rejects it. 
+		\end{enumerate}
+		\item 
+		A: Input: $(x,c)\in\{0,1,\sharp\}\times \Sigma_{bool}^\star$
+		\begin{enumerate}[(1)]
+			\item 
+			$x=u\sharp w\in\{0,1,\sharp\}^+$ where $u\in\{0,1\}^\star$ and $w$ represents a graph. Let $k=Number(u)$. $c$ codes $k$ vertices.
+			\item 
+			 If each pair of the $k$ vertices has an edge, then A accepts $(x,c)$, otherwise, A rejects. 
+		\end{enumerate}
+	\end{enumerate}
+\end{document}

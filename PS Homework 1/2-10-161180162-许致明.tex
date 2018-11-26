@@ -1,0 +1,263 @@
+\documentclass[twocolumn]{article}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\usepackage{txfonts}
+\usepackage{enumerate}
+\usepackage{ctex}
+\usepackage{txfonts}
+\usepackage{fontspec-xetex}
+\usepackage{float}
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\setlength\parindent{0em}
+\setmainfont{Times New Roman}
+\newcommand*{\dif}{\mathop{}\!\mathrm{d}}
+\begin{document}
+	\title{问题求解（二）作业（第十周）}\author{161180162 许致明}\maketitle
+	\section*{MA第二章}
+	\subsection*{2.6}
+	对于\proc{Push}操作，操作前$|elemes|<max$，则操作后$|elemes|\le max$满足不变式3；\par 
+	操作后，当前的时间戳$c'$满足$c'>c$，其中$c$为栈中元素的时间戳，满足不变式2；\par 
+	进行\proc{Push}操作后，加入了一个元素$a$，且当前时间戳增大，故满足不变式1。
+	\section*{TC第十章}
+	\subsection*{10.1-4}
+	\begin{codebox}
+		\zi\proc{Enqueue(\id{Q}, \id{x})}\li 
+		\If $\id{Q.head}==\id{Q.tail}+1$, or\zi
+		$\id{Q.head}==1$ and $\id{Q.tail}=\id{Q.length}$
+		\Then\li
+		\textbf{error} "overflow" \End \li 
+		$\id{Q[Q.tail]}=x$\li 
+		\If $\id{Q.tail}==\id{Q.length}$\Then\li 
+		$\id{Q.tail}=1$\li 
+		\Else\li 
+		$\id{Q.tail}=\id{Q.head}+1$
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Dequeue(\id{Q}, \id{x})}\li 
+		\If $\id{Q.tail}==\id{Q.head}$
+		\Then\li
+		\textbf{error} "underflow" \End \li 
+		$\id{x}=\id{Q[Q.tail]}$\li 
+		\If $\id{Q.head}==\id{Q.length}$\Then\li 
+		$\id{Q.head}=1$\li 
+		\Else\li 
+		$\id{Q.head}=\id{Q.head}+1$\End\li 
+		\Return $\id{x}$
+	\end{codebox}
+	\subsection*{10.1-5}
+	\begin{codebox}
+		\zi\proc{Head-Enqueue(\id{Q}, \id{x})}\li 
+		$\id{Q}.[\id{Q.head}]=x$\li 
+		\If $\id{Q.head}==1$\Then\li 
+		$\id{Q.head}=\id{Q.length}$\li 
+		\Else \li 
+		$\id{Q.head}=\id{Q.head}-1$\End
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Tail-Enqueue(\id{Q}, \id{x})}\li 
+		$\id{Q}.[\id{Q.tail}]=x$\li 
+		\If $\id{Q.tail}==\id{Q.length}$\Then\li 
+		$\id{Q.tail}=1$\li 
+		\Else \li 
+		$\id{Q.tail}=\id{Q.tail}+1$\End
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Head-Dequeue(\id{Q}, \id{x})}\li 
+		$\id{x}\gets \id{Q}.[\id{Q.head}]$\li 
+		\If $\id{Q.head}==\id{Q.length}$\Then\li 
+		$\id{Q.head}=1$\li 
+		\Else\li 
+		$\id{Q.head}=\id{Q.head}+1$\End\li 
+		\Return \id{x}
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Tail-Dequeue(\id{Q}, \id{x})}\li 
+		$\id{x}\gets \id{Q}.[\id{Q.tail}]$\li 
+		\If $\id{Q.tail}==1$\Then\li 
+		$\id{Q.tail}=\id{Q.length}$\li 
+		\Else\li 
+		$\id{Q.tail}=\id{Q.tail}-1$\End\li 
+		\Return \id{x}
+	\end{codebox}
+	\subsection*{10.1-6}
+	将进队的操作转化为压栈（假定存入栈$A$），出队时，先将此元素前（在栈的上面）的所有元素弹出，放入另一个栈中（假定为栈$B$），再将此元素弹出。最后把$B$中的元素再按顺序全部出栈压入$A$中。\par 
+	此种实现入队操作复杂度为$O(1)$，出队操作复杂度为$O(n)$，$n$为队列中所有元素的个数。
+	\subsection*{10.2-1}
+	\begin{codebox}
+		\zi\proc{Insert(\id{L}, \id{x})} \Comment{$O(1)$}\li 
+		$\id{x.next}=\id{L.head}$\li 
+		$\id{L.head}=x$
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Delete(\id{L}, \id{x})} \Comment{至少为线性时间}\li 
+		$\id{p}=\id{L.head}$\li 
+		\While $\id{p}\neq x$ and $\id{p}\neq\const{null}$\Do\li 
+		$\id{p}=\id{p.next}$\End \li 
+		\If $\id{p}==\const{null}$\Then\li 
+		\textbf{error} "No such element $x$"\End\li 
+		\If $\id{p.prev}\neq \const{null}$\Then\li 
+		$\id{p.prev.next}=\id{p.next}$\li 
+		\Else \li 
+		$\id{L.head}=\id{p.next}$\End\li 
+		\If $\id{p.next}\neq \const{null}$\Then\li 
+		$\id{p.next.prev}=\id{p.prev}$\End\li 
+		\Return $\id{p}$
+	\end{codebox}
+	\subsection*{10.2-2}
+	\begin{codebox}
+		\zi\proc{Push(\id{L}, \id{x})}\li 
+		$\id{x.next}=\id{L.head}$\li 
+		$\id{L.head}=\id{x}$
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Pop(\id{L}, \id{x})}\li 
+		$\id{x}=\id{L.head}$\li 
+		$\id{L.head}=\id{x.next}$\li 
+		\Return $\id{x}$
+	\end{codebox}
+	\subsection*{10.2-3}
+	加入哨兵：$\id{L.head}\rightarrow\id{L.\const{null}}$（哨兵）$\rightarrow\id{L.end}$
+	\begin{codebox}
+		\zi\proc{Dequeue(\id{L}, \id{x})}\li 
+		$\id{x}=\id{L.head}$\li 
+		$\id{L.head}=\id{x.next}$\li 
+		\Return $\id{x}$
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Enqueue(\id{L}, \id{x})}\li 
+		$\id{x.next}=\id{L.\const{null}.next}$\li 
+		$\id{L.\const{null}.next}=\id{x}$
+	\end{codebox}
+	\subsection*{10.2-6}
+	设$L_1$为包含了$S_1$中所有元素的双向链表，$L_2$为包含了$S_2$中所有元素的双向链表。
+	\begin{codebox}
+		\zi\proc{Union($\id{L_1}$, $\id{L_2}$)}\li 
+		$\id{L_1.\const{null}.prev.next}=\id{L_2.\const{null}.next}$\li 
+		$\id{L_2.\const{null}.next.prev}=\id{L_1.\const{null}.prev}$\li
+		$\id{L_1.\const{null}.prev}=\id{L_2.\const{null}.prev}$\li 
+		$\id{L_2.\const{null}.prev.next}=\id{L_1.\const{null}.prev}$\li 
+	\end{codebox}
+	\subsection*{10.3-4}
+	$m$指示已经分配的元素个数。
+	\begin{codebox}
+		\zi\proc{Allocate-Object(\id{A})}\li 
+		\If $\id{m}==\id{A.length}$\Then\li 
+		\textbf{error} "out of space"\li 
+		\Else \li 
+		$\id{m}=\id{m}+1$\li 
+		$\id{x}=\id{m}$
+		\End\li 
+		\Return \id{x}
+	\end{codebox}
+	\begin{codebox}
+		\zi\proc{Free-Object(\id{A}, \id{x})}\li 
+		\If $\id{m}==0$\Then\li 
+		\textbf{error} "underflow"\li 
+		\ElseIf $\id{x}==m$\Then \li 
+		$\id{m}=\id{m}-1$\li 
+		\Else\li 
+		\proc{Swap(\id{x}, \id{m})}\li 
+		$\id{m}=\id{m-1}$\End 
+	\end{codebox}
+	\subsection*{10.3-5}
+	\begin{codebox}
+		\zi\proc{Compactify-List(\id{L}, \id{F})}\li 
+		$\id{p_1}=1,\ \id{p_2}=\id{A.length}$\li 
+		\While $\id{p_1}<\id{p_2}$\Do\li 
+		\While $\id{key}[\id{p_1}]\neq \const{null}$\Do\li 
+		$\id{p_1}=\id{p_1}+1$\End\li 
+		\While $\id{key}[\id{p_2}]==\const{null}$\Do\li 
+		$\id{p_2}=\id{p_2}-1$\End\li 
+		\If $\id{p_1}<\id{p_2}$\Then\li 
+		\proc{Swap($\id{key}[\id{p_1}]$, $\id{key}[\id{p_2}]$)}\li 
+		\For $\id{i}=1$ \To $\id{A.length}$\Do\li 
+		\If $\id{next}[\id{i}]==p_2$\Then\li 
+		$\id{next}[\id{i}]==p_1$\End\li 
+		\If $\id{prev}[\id{i}]==p_2$\Then\li 
+		$\id{prev}[\id{i}]==p_1$\End\li
+		\If $\id{next}[\id{i}]==p_1$ and $\id{key}[\id{i}]==\const{null}$\Then\li 
+		$\id{next}[\id{i}]==p_2$\End
+	\end{codebox}
+	使用循环不变量：$p_1$前存放的都是数字，$p_2$后全部为空，可以证明算法的正确性。
+	\subsection*{10.4-2}
+	\begin{codebox}
+		\zi\proc{Print-Tree(\id{T})}\li 
+		\If $\id{T}\neq \const{null}$\Then\li 
+		print $\id{T}.key$\li 
+		\proc{Print-Tree(\id{T.left})}\li 
+		\proc{Print-Tree(\id{T.right})}
+	\end{codebox}
+	\subsection*{10.4-3}
+		\begin{codebox}
+			\zi\proc{Print-Tree-Stack(\id{T})}\li 
+			\proc{Push(\id{S}, \id{T})}\li 
+			\While $\id{S}\neq \const{null}$\Do\li 
+			$\id{tmp}=\proc{Pop(\id{S})}$\li
+			print $\id{tmp}.\id{key}$\li 
+			\If $\id{tmp.left}\neq \const{null}$\Then\li 
+			\proc{Push(\id{S}, \id{tmp.left})}\End\li  
+			\If $\id{tmp.right}\neq \const{null}$\Then\li 
+			\proc{Push(\id{S}, \id{tmp.right})}\End
+		\end{codebox}
+	\subsection*{10.4-4}
+		\begin{codebox}
+			\zi\proc{Print-Tree-Arbitrary(\id{T})}\li 
+			\proc{Push(\id{S}, \id{T})}\li 
+			\While $\id{S}\neq \const{null}$\Do\li 
+			$\id{tmp}=\proc{Pop(\id{S})}$\li
+			print $\id{tmp}.\id{key}$\li 
+			\If $\id{tmp.left-child}\neq \const{null}$\Then\li 
+			\proc{Push(\id{S}, \id{tmp.left-child})}\End\li  
+			\If $\id{tmp.right-sibling}\neq \const{null}$\Then\li 
+			\proc{Push(\id{S}, \id{tmp.right-sibling})}\End
+		\end{codebox}
+	\subsection*{10-3}
+	\begin{enumerate}[(a)]
+		\item 若算法二在$1-t$的循环中已经返回，则与算法一等价，此时迭代的总次数为$i$；\par 
+		否则，在循环结束后，必有$\id{key}[\id{i}]<\id{key}[\id{j}]$，且$\id{key}[\id{j}]<k$。则接下来的8、9行运行中进行搜索，可以得到正确的结果。次数算法二的总迭代次数大于$t$。
+		\item 若在$1-t$的循环中返回，则运行时间为$O(t)$；\par 
+		否则，在\For 循环结束后的过程中，期望运行时间为$E[X_t]$。因此，总的期望运行时间为$O(t+E[X_t])$。
+		\item 
+		\[
+			\begin{aligned}
+				E[X_t]&=\sum_{i=0}^{d}iP(X_t=i)=\sum_{i=1}^{d}P(X_t\ge i)\\
+				&\le \sum_{i=1}^{n}P(X_t\ge i)\le \sum_{i=1}^{n}\left(1-\frac{r}{n}\right)^t
+			\end{aligned}
+		\]
+		\item 
+		\[
+			\begin{aligned}
+				\sum_{i=0}^{n-1}r^t\le \int_{0}^{n}x^t\dif x=\frac{n^{t+1}}{t+1}
+			\end{aligned}
+		\]
+		\item 
+		\[
+			\begin{aligned}
+				E[X_t]&=\sum_{i=0}^{n}\left(1-\frac{i}{n}\right)^t=\frac{1}{n^t}\sum_{i=0}^{n-1}i^t\\
+				&\le \frac{1}{n^t}\cdot \frac{n^{t+1}}{t+1}=\frac{n}{t+1}
+			\end{aligned}
+		\]
+		\item 
+		\[
+			\begin{aligned}
+				O(t+E[X_t])=O\left(t+\frac{n}{t+1}\right)=O\left(t+\frac{n}{t}\right)
+			\end{aligned}
+		\]
+		\item 
+		\[
+			\begin{aligned}
+				t+\frac{n}{t}&\ge 2\sqrt{t\cdot \frac{n}{t}}=2\sqrt{n}\\
+			\end{aligned}
+		\]
+		故当$t=\sqrt{n}$时，期望运行时间取最小，为$O(\sqrt{n})$。
+		\item 
+		当所有元素均相同，且不是所要找的元素时，渐进运行时间无法降低。
+	\end{enumerate}
+\end{document}

@@ -1,0 +1,100 @@
+\documentclass[twocolumn]{article}
+\usepackage{verbatim}
+\usepackage{amsfonts}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\usepackage{txfonts}
+\usepackage{enumerate}
+\usepackage{ctex}
+\usepackage{txfonts}
+\usepackage{fontspec-xetex}
+\usepackage{float}
+\geometry{top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm}
+\setlength\parindent{0em}
+\setmainfont{Times New Roman}
+\begin{document}
+	\title{问题求解（二）作业（第七周）}\author{161180162 许致明}\maketitle
+	\section*{CS第五章}
+	\subsection*{5.6.4}
+	$P(A)=P(K)=P(Q)=P(J)=\frac{2}{9}$, $P(K)=\frac{1}{9}$. 设赢钱的期望为$X$，则：
+	\[
+		\begin{aligned}
+			&\ \ \ \ \ E[X]\\
+			&=P(A)\cdot\left(1+E[X]\right)+P(J)\cdot 2+P(Q)\cdot 3+P(K)\cdot 4\\
+			&=\frac{12}{7}
+		\end{aligned}
+	\]
+	故理智人最多花$\frac{12}{7}\$$玩这个游戏。
+	\subsection*{5.6.8}
+	\begin{proof}
+		\[
+		\begin{aligned}
+			\sum_{i=1}^{n}E[X|F_i]P(F_i)&=\sum_x\sum_{i=1}^{n}xP(X=x|F_i)P(F_i)\\
+			&=\sum_x\sum_{i=1}^{n}x\frac{P(X=x\cap F_i)}{P(F_i)}\cdot P(F_i)\\
+			&=\sum_x\sum_{i=1}^{n}xP(X=x\cap F_i)\\
+			&=\sum_{x\in S}xP(X=x)\ \ \ (\because \bigcup_{i=1}^{n}F_i=S)\\
+			&=E[X]
+		\end{aligned}
+		\]
+	\end{proof}
+	\subsection*{5.7.2}%4/6/12
+	$E[X_i]=P(X_i=1)=0.6$. $X_i\sim B(1,0.6)$, $\therefore D[X]=0.24$. $\sum_{i=1}^{5}X_i=X$，因为$X_1,X_2,\dots,X_5$相互独立。
+	\subsection*{5.7.4}
+	$E[X]=100\times 0.6=60$, $D[X]=100\times 0.6\times 0.4=24$, $\sigma[X]=\sqrt{D[X]}=2\sqrt{6}$
+	\subsection*{5.7.6}
+	$25:\ D[X]=25\times 0.8\times 0.2=4$\\
+	$100:\ D[X]=16$\\
+	$400:\ D[X]=64$\\
+	改用标准差。
+	\subsection*{5.7.12}
+	设题目共有$n$道，$I_i=\left\{\begin{array}{cl}
+	1,&\text{第$i$题答对}\\
+	0,&\text{否则}
+	\end{array}\right.$。则：
+	$$P(X_i=1)=4/5,\ D[X_i]=\frac{1}{5}\times\frac{4}{5}=\frac{4}{25}$$
+	$$D[X]=\sum_{i=1}^{n}D[X_i]=0.16n$$
+	$$\sigma[X]=\sqrt{D[X]}=0.4\sqrt{n}$$
+	$$\therefore 2\cdot\sigma[X]=0.05n$$
+	$$n=256$$
+	\section*{TC第五章}
+	\subsection*{5.2.4}
+	设$I_i=\left\{\begin{array}{cl}
+	1,&\text{第$i$个客人拿到了他的帽子}\\
+	0,&\text{否则}
+	\end{array}\right.$，则$P(I_i=1)=1/n,\forall i\in\{1,2,\dots,n\}$。设$X$为最终拿到自己的帽子的客人数，则：
+	\[
+	\begin{aligned}
+		E[X]=\sum_{i=1}^{n}E[I_i]=\sum_{i=1}^{n}P(I_i)=1
+	\end{aligned}
+	\]
+	\subsection*{5.2.5}
+	设$I_{ij},i<j$为指示器变量，$I_{ij}=\left\{\begin{array}{cl}
+	1,&A[i]>A[j]\\
+	0,&\text{否则}
+	\end{array}\right.$。设逆序对的个数为$X$，则：
+	\[
+	\begin{aligned}
+		E[X]&=E\left[\sum_{i<j}I_{ij}\right]\\
+		&=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}I_{ij}\\
+		&=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}P\left(A_i>A_j\right)\\
+		&=\frac{1}{2}\sum_{i=1}^{n-1}n-i\\
+		&=\frac{1}{2}\sum_{i=1}^{n-1}i\\
+		&=\frac{n(n-1)}{4}
+	\end{aligned}
+	\]
+	\subsection*{5.3.2}
+	不能，考虑若$A=\left\{1,2,3\right\}$，则此算法不能生成排列$\left\{3,2,1\right\}$。
+	\subsection*{5.2.3}
+	产生各种排列的概率并不相等，考虑$n=3$时，循环进行了$3$次，在三个位置选择元素放入，则共有$3^3=27$种方式，它们出现的概率相等。但$3$个元素的全排列共有$3!=6$种，不是$27$的因数，所以这$27$种选择方案不能均等映射到$6$种全排列上。故得到各种全排列的概率不等。
+	\subsection*{5.2.4}
+	\begin{proof}
+		由\id{offset}等可能的取$1-n$中的所有值，所以$A$中任意元素$A[i]$落在$B[i+1],B[i+2],\dots,B[i]$的概率均为$1/n$。\par 
+		下证此算法得到的全排列概率并不均等：\par 
+		考虑元素$A[i],A[i+1],1\le i\le n-1$，则由于这是两个任意的元素，在$B$中，$A[i]$在$A[i+1]$之前或之后的概率相等。而使用此算法得到的排列中，有$1-\frac{i+1}{n}$的概率$A[i]$仍在$A[i+1]$前，$\frac{i+1}{n}$的概率$A[i]$在$A[j]$后，与均匀的全排列不符，故此算法得到的排列并不是均匀分布的。
+	\end{proof}
+\end{document}
